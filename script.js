@@ -49,7 +49,7 @@ generateBtn.addEventListener("click", async () => {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/generate-notes",
+            "https://scribe-backend-cx7z.onrender.com",
             {
                 method: "POST",
                 body: formData
@@ -502,7 +502,7 @@ async function downloadNotes(markdown) {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/download-pdf",
+            "https://scribe-backend-cx7z.onrender.com",
             {
                 method: "POST",
 
@@ -643,7 +643,7 @@ async function generateEasyNotes() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/simplify-notes",
+            "https://scribe-backend-cx7z.onrender.com",
             {
                 method: "POST",
 
