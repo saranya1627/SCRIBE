@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SCRIBE — AI Lecture Notes</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <span>SCRIBE</span>
+        </div>
+
+        <div class="nav-right">
+            <span class="status-dot"></span>
+            <span>AI Ready</span>
+        </div>
+    </nav>
+
+
+    <main class="hero">
+
+        <div class="badge">
+            ✦ AI-POWERED LEARNING
+        </div>
+
+        <h1>
+            Turn your lectures into
+            <span>knowledge.</span>
+        </h1>
+
+        <p class="hero-text">
+            Upload your lecture audio and classroom slides.
+            SCRIBE listens, understands and transforms them
+            into clear, structured study notes.
+        </p>
+
+
+        <section class="upload-container">
+
+            <div class="upload-card">
+
+                <div class="card-icon audio-icon">
+                    🎙️
+                </div>
+
+                <h2>Lecture Audio</h2>
+
+                <p>
+                    Upload your recorded lecture
+                </p>
+
+                <label class="upload-button">
+                    Choose Audio
+                    <input
+                        type="file"
+                        id="audioInput"
+                        accept="audio/*"
+                        hidden
+                    >
+                </label>
+
+                <span class="formats">
+                    MP3 · WAV · M4A · WEBM
+                </span>
+
+            </div>
+
+
+            <div class="plus">+</div>
+
+
+            <div class="upload-card">
+
+                <div class="card-icon image-icon">
+                    📸
+                </div>
+
+                <h2>Board / Slide</h2>
+
+                <p>
+                    Upload your classroom visual
+                </p>
+
+                <label class="upload-button">
+                    Choose Image
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/*"
+                        hidden
+                    >
+                </label>
+
+                <span class="formats">
+                    JPG · PNG · WEBP
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <button id="generateBtn" class="generate-button">
+            ✨ Generate Smart Notes
+        </button>
+
+
+        <section id="resultSection" class="result-section">
+
+            <div class="result-header">
+                <div>
+                    <span class="result-label">YOUR AI NOTES</span>
+                    <h2>Lecture Summary</h2>
+                </div>
+
+                <button class="download-button">
+                    ↓ Download
+                </button>
+            </div>
+
+
+            <div class="notes-card">
+
+                <div class="note-item">
+                    <span class="note-number">01</span>
+
+                    <div>
+                        <h3>Key Concepts</h3>
+                        <p>
+                            Your important lecture concepts
+                            will appear here.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="note-item">
+                    <span class="note-number">02</span>
+
+                    <div>
+                        <h3>Important Points</h3>
+                        <p>
+                            SCRIBE will identify the most
+                            relevant points from your lecture.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="note-item">
+                    <span class="note-number">03</span>
+
+                    <div>
+                        <h3>Quick Revision</h3>
+                        <p>
+                            A concise revision section will
+                            help you study faster.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <span>SCRIBE</span>
+        <span>AI-powered lecture intelligence</span>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
