@@ -33,7 +33,7 @@ generateBtn.addEventListener("click", async () => {
         return;
     }
 
-    generateBtn.textContent = "🎙️ Analyzing lecture audio...";
+    generateBtn.textContent = "✦ Analyzing your lecture...";
     generateBtn.disabled = true;
 
     const formData = new FormData();
@@ -151,31 +151,28 @@ function showNotes(markdown) {
         <span class="intelligence-icon">🧠</span>
         <div>
             <strong>AI Reconstructed</strong>
-            <small>Lecture analyzed</small>
+            <small>${getAnalysisType()}</small>
         </div>
     </div>
 
     <div class="intelligence-item">
         <span class="intelligence-icon">📚</span>
-        <div>
-            <strong>6 Sections</strong>
-            <small>Study structure</small>
-        </div>
+        <div><strong>${countNoteSections(markdown)} Sections</strong><small>Study structure</small></div>
     </div>
 
     <div class="intelligence-item">
         <span class="intelligence-icon">🎯</span>
         <div>
             <strong>Exam Ready</strong>
-            <small>Focus points included</small>
-        </div>
+            <small>${hasExamFocus(markdown)}</small>
+            </div>
     </div>
 
     <div class="intelligence-item">
         <span class="intelligence-icon">⚡</span>
         <div>
             <strong>Quick Revision</strong>
-            <small>Key takeaways included</small>
+            <small>${hasTakeaways(markdown)}</small>
         </div>
     </div>
 </div>
@@ -186,7 +183,7 @@ function showNotes(markdown) {
                 <input
                     type="text"
                     id="noteSearch"
-                    placeholder="Search your notes..."
+                    placeholder="Search concepts, definitions, formulas..."
                 >
 
             </div>
@@ -236,58 +233,7 @@ function formatMarkdown(markdown) {
 
     let html = escapeHtml(markdown);
 
-    // Headings
-    html = html.replace(
-        /^### (.*$)/gim,
-        '<h4>$1</h4>'
-    );
-
-    html = html.replace(
-        /^## (.*$)/gim,
-        '<h3>$1</h3>'
-    );
-
-    html = html.replace(
-        /^# (.*$)/gim,
-        '<h2>$1</h2>'
-    );
-
-    // Bold
-    html = html.replace(
-        /\*\*(.*?)\*\*/g,
-        '<strong>$1</strong>'
-    );
-
-    // Bullet points
-    html = html.replace(
-        /^\s*[-•] (.*)$/gim,
-        '<li>$1</li>'
-    );
-
-    // Numbered lists
-    html = html.replace(
-        /^\s*(\d+)\. (.*)$/gim,
-        '<li class="numbered-item">$2</li>'
-    );
-
-    // Horizontal separators
-    html = html.replace(
-        /^---$/gim,
-        '<hr>'
-    );
-
-    // New lines
-    html = html.replace(
-        /\n/g,
-        "<br>"
-    );
-
-    return html;
-}function formatMarkdown(markdown) {
-
-    let html = escapeHtml(markdown);
-
-    // Convert main sections into styled section blocks
+    // Main sections
     html = html.replace(
         /^# Lecture Overview\s*([\s\S]*?)(?=^# |\s*$)/gim,
         `
@@ -441,12 +387,10 @@ function searchNotes() {
 
         notes.innerHTML = `
             <div class="no-results">
-                🔍
+                <div class="no-results-icon">🔍</
+            div>
                 <h3>No matching information</h3>
-                <p>
-                    Try searching for another concept,
-                    definition, formula, or topic.
-                </p>
+                <p>Try another concept, definition, formula, or topic.</p>
             </div>
         `;
 
@@ -692,3 +636,38 @@ async function generateEasyNotes() {
     }
 }
 
+function countNoteSections(markdown) {
+    const matches = markdown.match(/^# /gm);
+    return matches ? matches.length : 0;
+}
+
+function getAnalysisType() {
+    const hasAudio = audioInput.files.length > 0;
+    const hasImage = imageInput.files.length > 0;
+
+    if (hasAudio && hasImage) {
+        return "Audio + image analyzed";
+    }
+
+    if (hasAudio) {
+        return "Lecture audio analyzed";
+    }
+
+    if (hasImage) {
+        return "Lecture image analyzed";
+    }
+
+    return "Lecture analyzed";
+}
+
+function hasExamFocus(markdown) {
+    return /^# Exam Focus/im.test(markdown)
+        ? "Exam focus identified"
+        : "Study points included";
+}
+
+function hasTakeaways(markdown) {
+    return /^# Key Takeaways/im.test(markdown)
+        ? "Key takeaways included"
+        : "Revision points included";
+}
