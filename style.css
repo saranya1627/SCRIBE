@@ -1254,3 +1254,31 @@ footer span:last-child {
         padding: 22px 18px;
     }
 }
+
+.privacy-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: 28px auto;
+    padding: 16px 18px;
+    max-width: 900px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.privacy-icon {
+    font-size: 20px;
+}
+
+.privacy-notice strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.privacy-notice p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.7;
+}

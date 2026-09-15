@@ -129,6 +129,13 @@ function showNotes(markdown) {
                     </button>
 
                     <button
+    id="questionsBtn"
+    class="secondary-btn"
+>
+    ❓ Generate Questions
+</button>
+
+                    <button
                         id="downloadBtn"
                         class="secondary-btn"
                     >
@@ -207,7 +214,11 @@ function showNotes(markdown) {
 
     document
     .getElementById("easyNotesBtn")
-    .addEventListener("click", generateEasyNotes);    
+    .addEventListener("click", generateEasyNotes);  
+    
+    document
+    .getElementById("questionsBtn")
+    .addEventListener("click", generateQuestions);
 
 
     // Download
@@ -670,4 +681,84 @@ function hasTakeaways(markdown) {
     return /^# Key Takeaways/im.test(markdown)
         ? "Key takeaways included"
         : "Revision points included";
+}
+
+async function generateQuestions() {
+
+    const questionsBtn =
+        document.getElementById("questionsBtn");
+
+    const notesContent =
+        document.getElementById("notesContent");
+
+    if (!window.currentNotes) {
+        return;
+    }
+
+    questionsBtn.textContent =
+        "⏳ Generating...";
+
+    questionsBtn.disabled = true;
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/generate-questionshttps://scribe-backend-cx7z.onrender.com/generate-questions",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    notes: window.currentNotes
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Could not generate questions."
+            );
+        }
+
+        notesContent.insertAdjacentHTML(
+            "beforeend",
+            `
+            <section class="note-section questions-section">
+                <div class="section-icon">❓</div>
+                <div>
+                    <h2>Practice Questions</h2>
+                    <div class="section-body">
+                        ${formatMarkdown(data.questions)}
+                    </div>
+                </div>
+            </section>
+            `
+        );
+
+        questionsBtn.textContent =
+            "✓ Questions Generated";
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "SCRIBE could not generate questions.\n\n" +
+            error.message
+        );
+
+        questionsBtn.textContent =
+            "❓ Generate Questions";
+
+    } finally {
+
+        questionsBtn.disabled = false;
+
+    }
 }

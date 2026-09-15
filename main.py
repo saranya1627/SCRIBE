@@ -163,6 +163,80 @@ RULES:
 Return ONLY Markdown.
 """
 
+@app.post("/generate-questions")
+async def generate_questions(data: dict):
+
+    notes = data.get("notes")
+
+    if not notes:
+        raise HTTPException(
+            status_code=400,
+            detail="No notes were provided."
+        )
+
+    try:
+        prompt = f"""
+You are SCRIBE's Question Generator.
+
+Create study questions from the following lecture notes.
+
+Generate:
+- 5 conceptual questions
+- 3 short-answer questions
+- 2 exam-style questions
+
+Rules:
+- Use ONLY information present in the notes.
+- Do not invent facts or topics.
+- Do not provide answers.
+- Avoid duplicate questions.
+- Cover different parts of the lecture.
+- Make the questions clear and suitable for a college student.
+- Include formulas, definitions, algorithms, comparisons, or important concepts
+  when they are present in the notes.
+
+Format the result exactly as:
+
+# Conceptual Questions
+
+1. Question
+2. Question
+3. Question
+4. Question
+5. Question
+
+# Short-Answer Questions
+
+1. Question
+2. Question
+3. Question
+
+# Exam-Style Questions
+
+1. Question
+2. Question
+
+Lecture Notes:
+
+{notes}
+
+Return ONLY Markdown.
+"""
+
+        response = client.models.generate_content(
+            model="gemini-3.5-flash-lite",
+            contents=[prompt]
+        )
+
+        return {
+            "questions": response.text
+        }
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Could not generate questions: {str(exc)}"
+        ) from exc
 
 def generate_notes(audio_path=None, image_path=None):
     contents = [NOTE_PROMPT]
